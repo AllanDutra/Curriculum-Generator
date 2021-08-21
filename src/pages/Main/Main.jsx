@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import {mask} from 'remask';
 
 // material-ui
 import { makeStyles, TextField, ThemeProvider, createTheme, Button, Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
@@ -9,6 +10,7 @@ import logoWhite from '../../assets/images/LogoAllanProjects-White.svg';
 // components
 import TitleContent from '../../components/TitleContent';
 import Curriculum from '../../components/Currriculum';
+import Notification from '../../components/Notification';
 
 const useStyles = makeStyles({
     page:{
@@ -38,12 +40,12 @@ const useStyles = makeStyles({
     blocoEntrada:{
         display:'flex',
         flexDirection:'column',
-        width:"45%",
+        width:"38rem",
     },
     blocoCurriculo:{
         display:'flex',
         flexDirection:'column',
-        width:'50%',
+        width:'38rem',
     },
     dadosPessoais:{
         width:'100%',
@@ -94,7 +96,7 @@ const useStyles = makeStyles({
         justifyContent:'space-between',
     },
     select:{
-        width:'70%',
+        width:'65%',
     },
 })
 
@@ -110,6 +112,69 @@ const Main = () => {
 
     const styles = useStyles();
 
+    const initialObjPeopleData = {
+        nome: '',
+        endereco: '',
+        telefone: '',
+        email:'',
+        linkedin:'',
+        facebook:'',
+        twitter:'',
+        instagram:'',
+        github:'',
+        outro:'',
+    }
+    const [objPeopleData, setObjPeopleData] = useState(initialObjPeopleData);
+
+    function alterPeopleData(ev){
+        const {name, value} = ev.target;
+
+        if(name === 'telefone'){
+            let maskedFone = mask(value, ['(99) 9 9999-9999']);
+            setObjPeopleData({...objPeopleData, [name]:maskedFone});
+        }
+        else{
+            setObjPeopleData({...objPeopleData, [name]:value});
+        }
+
+    }
+
+    const [colorCurriculum, setColorCurriculum] = useState('black');
+    function alterColorCurriculum(ev){
+        setColorCurriculum(ev.target.value);
+    }
+
+    const [alertNotf, setAlertNotf] = useState({
+        type:'',
+        msg:'',
+    });
+
+    function addPeopleData(){
+
+        let countRequiredEmpty = 0;
+
+        for(let i in objPeopleData){
+            if(i === 'nome' || i === 'telefone' || i === 'endereco'){
+                if(objPeopleData[i] === ''){
+                    countRequiredEmpty++;
+                }
+            }
+        }
+
+        if(countRequiredEmpty !== 0){
+            setAlertNotf({
+                type:'warning',
+                msg:'Existem campos que precisam ser inseridos para prosseguir!'
+            });
+            setTimeout(function(){
+                setAlertNotf({
+                    type:'',
+                    msg:'',
+                })
+            },3500);
+        }
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <div className={styles.page}>
@@ -120,32 +185,33 @@ const Main = () => {
                     </span>
                 </div>
                 <div className={styles.body}>
+                    <Notification type={alertNotf.type} msg={alertNotf.msg}/>
                     <div className={styles.primaryRow}>
                         <div className={styles.blocoEntrada}>
                             <div className={styles.dadosPessoais}>
                                 <TitleContent txt="Dados pessoais"/>
                                 <div className={styles.inputs}>
-                                    <TextField label="Nome completo" variant="outlined" size="small" className={styles.input} required/>
+                                    <TextField label="Nome completo" variant="outlined" size="small" className={styles.input} required name="nome" value={objPeopleData.nome} onChange={alterPeopleData}/>
 
-                                    <TextField label="Endereço" variant="outlined" size="small" className={styles.input} required/>
+                                    <TextField label="Endereço" variant="outlined" size="small" className={styles.input} required name="endereco" value={objPeopleData.endereco} onChange={alterPeopleData}/>
 
-                                    <TextField label="Telefone" variant="outlined" size="small" className={styles.input} required/>
+                                    <TextField label="Telefone" variant="outlined" size="small" className={styles.input} required name="telefone" value={objPeopleData.telefone} onChange={alterPeopleData}/>
 
-                                    <TextField label="E-mail" variant="outlined" size="small" className={styles.input}/>
+                                    <TextField label="E-mail" variant="outlined" size="small" className={styles.input} name="email" value={objPeopleData.email} onChange={alterPeopleData}/>
 
-                                    <TextField label="Linkedin" variant="outlined" size="small" className={styles.input}/>
+                                    <TextField label="Linkedin" variant="outlined" size="small" className={styles.input} name="linkedin" value={objPeopleData.linkedin} onChange={alterPeopleData}/>
                                     
-                                    <TextField label="Facebook" variant="outlined" size="small" className={styles.input}/>
+                                    <TextField label="Facebook" variant="outlined" size="small" className={styles.input} name="facebook" value={objPeopleData.facebook} onChange={alterPeopleData}/>
                                     
-                                    <TextField label="Twitter" variant="outlined" size="small" className={styles.input}/>
+                                    <TextField label="Twitter" variant="outlined" size="small" className={styles.input} name="twitter" value={objPeopleData.twitter} onChange={alterPeopleData}/>
                                     
-                                    <TextField label="Instagram" variant="outlined" size="small" className={styles.input}/>
+                                    <TextField label="Instagram" variant="outlined" size="small" className={styles.input} name="instagram" value={objPeopleData.instagram} onChange={alterPeopleData}/>
                                     
-                                    <TextField label="Github" variant="outlined" size="small" className={styles.input}/>
+                                    <TextField label="Github" variant="outlined" size="small" className={styles.input} name="github" value={objPeopleData.github} onChange={alterPeopleData}/>
                                     
-                                    <TextField label="Outro" variant="outlined" size="small" className={styles.input}/>
+                                    <TextField label="Outro" variant="outlined" size="small" className={styles.input} name="outro" value={objPeopleData.outro} onChange={alterPeopleData}/>
 
-                                    <Button variant="contained" color="primary" className={styles.button}>
+                                    <Button variant="contained" color="primary" className={styles.button} onClick={addPeopleData}>
                                         Adicionar dados pessoais
                                     </Button>
                                 </div>
@@ -173,9 +239,9 @@ const Main = () => {
                                 <FormControl variant="outlined" className={styles.select} size="small">
                                     <InputLabel id="demo-simple-select-outlined-label">Cor personalizada</InputLabel>
                                     <Select
-                                    labelId="demo-simple-select-outlined-label"
-                                    id="demo-simple-select-outlined"
                                     label="Cor personalizada"
+                                    value={colorCurriculum}
+                                    onChange={alterColorCurriculum}
                                     >
                                         <MenuItem value="black">
                                             <em>Padrão</em>

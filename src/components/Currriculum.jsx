@@ -6,7 +6,8 @@ import { makeStyles } from '@material-ui/core';
 const useStyles = makeStyles({
     curriculum:{
         width:'100%',
-        minHeight:'90vh',
+        height:'90vh',
+        overflowY:'auto',
         backgroundColor:'white',
         boxShadow:'0 0 0.5rem rgba(0,0,0,0.2)',
     }
