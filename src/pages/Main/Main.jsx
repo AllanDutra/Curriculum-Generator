@@ -113,10 +113,10 @@ const Main = () => {
     const styles = useStyles();
 
     const initialObjPeopleData = {
-        nome: '',
-        endereco: '',
-        telefone: '',
-        email:'',
+        nome: 'Allan Dutra Feitosa',
+        endereco: 'Rua Machado de assis, 687, Bairro São João - Araguaína - Tocantins',
+        telefone: '+55 63 992970628',
+        email:'allandutrafeitosa14@gmail.com',
         linkedin:'',
         facebook:'',
         twitter:'',
@@ -173,6 +173,100 @@ const Main = () => {
                 })
             },3500);
         }
+        else{
+
+        }
+        
+    }
+
+    const [blocks, setBlocks] = useState([]);
+
+    const initialBlockInfo = {
+        title:"",
+        paragraphs:[],
+    }
+    const [newBlockInfo, setNewBlockInfo] = useState(initialBlockInfo);
+
+    const [newParagraph, setNewParagraph] = useState('');
+    
+    function alterBlockInfo(e){
+
+        const {name, value} = e.target;
+
+        if(name === "title"){
+            setNewBlockInfo({...newBlockInfo, [name]:value});
+        }
+        else if(name === "paragraph"){
+            setNewParagraph(value);
+        }
+
+    }
+
+    function addParagraph(){
+        if(newParagraph.length < 10){
+            setAlertNotf({
+                type:'info',
+                msg:'Informe ao menos 10 caracteres no seu parágrafo para prosseguir!'
+            });
+            setTimeout(function(){
+                setAlertNotf({
+                    type:'',
+                    msg:'',
+                })
+            },3500);
+        }
+        else{
+            if(!newBlockInfo.paragraphs.includes(newParagraph)){
+                newBlockInfo.paragraphs.push(newParagraph);
+            }
+            else{
+                setAlertNotf({
+                    type:'warning',
+                    msg:'Você já inseriu esse parágrafo no seu currículo!'
+                });
+                setTimeout(function(){
+                    setAlertNotf({
+                        type:'',
+                        msg:'',
+                    })
+                },3500);
+            }
+        }
+    }
+
+    function addBlockInfo(){
+
+        let blockExist = blocks.filter(block => block.title === newBlockInfo.title);
+
+        if(blockExist.length > 0){
+            setAlertNotf({
+                type:'warning',
+                msg:'Você já adicionou um bloco de informações com esse título!'
+            });
+            setTimeout(function(){
+                setAlertNotf({
+                    type:'',
+                    msg:'',
+                })
+            },3500);
+        }
+        else{
+            if(newBlockInfo.title !== '' && newBlockInfo.paragraphs.length > 0){
+                setBlocks([...blocks, newBlockInfo]);
+            }
+            else{
+                setAlertNotf({
+                    type:'error',
+                    msg:'Verifique os campos do seu bloco de informações e tente novamente!'
+                });
+                setTimeout(function(){
+                    setAlertNotf({
+                        type:'',
+                        msg:'',
+                    })
+                },3500);
+            }
+        }
     }
 
     return (
@@ -219,14 +313,14 @@ const Main = () => {
                             <div className={styles.topicoInformacoes}>
                                 <TitleContent txt="Adicionar tópico de informações"/>
                                 <div className={styles.bodyAddInformacoes}>
-                                    <TextField label="Título" variant="outlined" size="small" className={styles.input} required/>
+                                    <TextField label="Título" variant="outlined" size="small" className={styles.input} required name="title" onChange={alterBlockInfo}/>
                                     <div className={styles.addParagraph}>
-                                        <TextField label="Novo parágrafo" variant="outlined" size="small" required multiline rows={6} className={styles.inputParagraph}/>
+                                        <TextField label="Novo parágrafo" variant="outlined" size="small" required multiline rows={6} className={styles.inputParagraph} name="paragraph" onChange={alterBlockInfo}/>
                                         <div className={styles.bttsAddParagraph}>
-                                            <Button variant="contained" color="primary" className={styles.button}>
+                                            <Button variant="contained" color="primary" className={styles.button} onClick={addParagraph}>
                                                 Adicionar parágrafo
                                             </Button>
-                                            <Button variant="contained" color="primary" className={styles.button}>
+                                            <Button variant="contained" color="primary" className={styles.button} onClick={addBlockInfo}>
                                                 Finalizar tópico de informações
                                             </Button>
                                         </div>
@@ -255,7 +349,7 @@ const Main = () => {
                                     Voltar à cor padrão
                                 </Button>
                             </div>
-                            <Curriculum/>
+                            <Curriculum objPeopleData={objPeopleData} blocks={blocks}/>
                         </div>
                     </div>
                 </div>
