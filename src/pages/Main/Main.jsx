@@ -12,6 +12,9 @@ import TitleContent from '../../components/TitleContent';
 import Curriculum from '../../components/Currriculum';
 import Notification from '../../components/Notification';
 
+// react-icons
+import {AiFillPrinter} from 'react-icons/ai';
+
 const useStyles = makeStyles({
     page:{
 
@@ -96,7 +99,7 @@ const useStyles = makeStyles({
         justifyContent:'space-between',
     },
     select:{
-        width:'65%',
+        width:'50%',
     },
 })
 
@@ -113,10 +116,10 @@ const Main = () => {
     const styles = useStyles();
 
     const initialObjPeopleData = {
-        nome: 'Allan Dutra Feitosa',
-        endereco: 'Rua Machado de assis, 687, Bairro São João - Araguaína - Tocantins',
-        telefone: '+55 63 992970628',
-        email:'allandutrafeitosa14@gmail.com',
+        nome: 'Romeu Amaral Barreira',
+        endereco: 'Rua Pará, 8955, Bairro Boa Vista - Parintins - Amazonas',
+        telefone: '(64) 33263-9861',
+        email:'yaimara266@uorak.com',
         linkedin:'',
         facebook:'',
         twitter:'',
@@ -218,6 +221,17 @@ const Main = () => {
         else{
             if(!newBlockInfo.paragraphs.includes(newParagraph)){
                 newBlockInfo.paragraphs.push(newParagraph);
+                setNewParagraph('');
+                setAlertNotf({
+                    type:'success',
+                    msg:'Parágrafo adicionado com sucesso!',
+                });
+                setTimeout(function(){
+                    setAlertNotf({
+                        type:'',
+                        msg:'',
+                    })
+                },3500);
             }
             else{
                 setAlertNotf({
@@ -253,6 +267,7 @@ const Main = () => {
         else{
             if(newBlockInfo.title !== '' && newBlockInfo.paragraphs.length > 0){
                 setBlocks([...blocks, newBlockInfo]);
+                setNewBlockInfo(initialBlockInfo);
             }
             else{
                 setAlertNotf({
@@ -313,14 +328,14 @@ const Main = () => {
                             <div className={styles.topicoInformacoes}>
                                 <TitleContent txt="Adicionar tópico de informações"/>
                                 <div className={styles.bodyAddInformacoes}>
-                                    <TextField label="Título" variant="outlined" size="small" className={styles.input} required name="title" onChange={alterBlockInfo}/>
+                                    <TextField label="Título" variant="outlined" size="small" className={styles.input} required name="title" value={newBlockInfo.title} onChange={alterBlockInfo}/>
                                     <div className={styles.addParagraph}>
-                                        <TextField label="Novo parágrafo" variant="outlined" size="small" required multiline rows={6} className={styles.inputParagraph} name="paragraph" onChange={alterBlockInfo}/>
+                                        <TextField label="Novo parágrafo" variant="outlined" size="small" required multiline rows={6} className={styles.inputParagraph} name="paragraph" value={newParagraph} onChange={alterBlockInfo}/>
                                         <div className={styles.bttsAddParagraph}>
                                             <Button variant="contained" color="primary" className={styles.button} onClick={addParagraph}>
                                                 Adicionar parágrafo
                                             </Button>
-                                            <Button variant="contained" color="primary" className={styles.button} onClick={addBlockInfo}>
+                                            <Button variant="contained" color="primary" className={styles.button} onClick={addBlockInfo} disabled={newBlockInfo.paragraphs.length === 0 ? true : false}>
                                                 Finalizar tópico de informações
                                             </Button>
                                         </div>
@@ -330,6 +345,7 @@ const Main = () => {
                         </div>
                         <div className={styles.blocoCurriculo}>
                             <div className={styles.optionsCurriculo}>
+                                
                                 <FormControl variant="outlined" className={styles.select} size="small">
                                     <InputLabel id="demo-simple-select-outlined-label">Cor personalizada</InputLabel>
                                     <Select
@@ -345,9 +361,15 @@ const Main = () => {
                                         <MenuItem value="green">Verde</MenuItem>
                                     </Select>
                                 </FormControl>
+                                
                                 <Button variant="contained" color="primary" className={styles.button}>
                                     Voltar à cor padrão
                                 </Button>
+                                
+                                <Button variant="contained" color="primary" className={styles.button} endIcon={<AiFillPrinter/>}>
+                                    Imprimir
+                                </Button>
+
                             </div>
                             <Curriculum objPeopleData={objPeopleData} blocks={blocks}/>
                         </div>

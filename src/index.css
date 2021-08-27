@@ -51,3 +51,7 @@ code {
   transform: none;
   }
   }
+
+  #lastParagraph{
+    margin-bottom: 0.8rem;
+  }

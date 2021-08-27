@@ -7,6 +7,9 @@ import {FiMail} from 'react-icons/fi';
 // material-ui
 import { makeStyles } from '@material-ui/core';
 
+// styles
+import '../index.css';
+
 const useStyles = makeStyles({
     curriculum:{
         width:'100%',
@@ -20,7 +23,7 @@ const useStyles = makeStyles({
         display:'flex',
         flexDirection:'column',
         alignItems:'center',
-        marginBottom:'1.5rem',
+        marginBottom:'1.2rem',
     },
     nome:{
         fontSize:'1.2rem',
@@ -40,6 +43,22 @@ const useStyles = makeStyles({
         justifyContent:'space-between',
         alignItems:"center",
         padding:'0.2rem 0.5rem 0.2rem 0.5rem',
+    },
+    titleBlock:{
+        width:'100%',
+        color:'black',
+        borderBottom:'2px solid black',
+        fontWeight:'bold',
+        fontSize:'0.9rem',
+    },
+    paragraphsBlock:{
+        marginTop:'0.4rem',
+        width:'100%',
+        fontSize:'0.7rem',
+        textAlign:'justify',
+    },
+    paragraph:{
+        marginBottom:'0.2rem',
     },
 });
 
@@ -68,9 +87,9 @@ const BlockInfo = (props) => {
                 {props.paragraphs ? 
                     props.paragraphs.map((paragraph, k)=>{
                         return(
-                            <span key={k}>
+                            <p key={k} className={styles.paragraph} id={k === props.paragraphs.length-1 ? "lastParagraph" : null}>
                                 {paragraph}
-                            </span>
+                            </p>
                         )
                     })
                     :
