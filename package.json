@@ -12,6 +12,7 @@
     "react-dom": "^17.0.2",
     "react-icons": "^4.2.0",
     "react-scripts": "4.0.3",
+    "react-to-print": "^2.13.0",
     "remask": "0.1.0-alpha.5",
     "web-vitals": "^1.1.2"
   },

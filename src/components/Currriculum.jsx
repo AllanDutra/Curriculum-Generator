@@ -100,12 +100,12 @@ const BlockInfo = (props) => {
     )
 }
 
-const Curriculum = (props) => {
+const Curriculum = React.forwardRef((props, ref) => {
 
     const styles = useStyles();
 
     return (
-        <div className={styles.curriculum}>
+        <div className={styles.curriculum} ref={ref}>
             {
                 props.objPeopleData.nome !== '' ?
                 <>
@@ -145,6 +145,6 @@ const Curriculum = (props) => {
             }
         </div>
     )
-}
+});
 
 export default Curriculum;

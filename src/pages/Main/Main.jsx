@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {mask} from 'remask';
 
 // material-ui
@@ -14,6 +14,7 @@ import Notification from '../../components/Notification';
 
 // react-icons
 import {AiFillPrinter} from 'react-icons/ai';
+import { useReactToPrint } from 'react-to-print';
 
 const useStyles = makeStyles({
     page:{
@@ -112,6 +113,12 @@ const theme = createTheme({
 })
 
 const Main = () => {
+
+    // métodos usados para imprimir o currículo
+    const ref = useRef();
+    const handlePrint = useReactToPrint({
+        content: () => ref.current,
+    });
 
     const styles = useStyles();
 
@@ -366,12 +373,12 @@ const Main = () => {
                                     Voltar à cor padrão
                                 </Button>
                                 
-                                <Button variant="contained" color="primary" className={styles.button} endIcon={<AiFillPrinter/>}>
+                                <Button variant="contained" color="primary" className={styles.button} endIcon={<AiFillPrinter/>} onClick={handlePrint}>
                                     Imprimir
                                 </Button>
 
                             </div>
-                            <Curriculum objPeopleData={objPeopleData} blocks={blocks}/>
+                            <Curriculum objPeopleData={objPeopleData} blocks={blocks} ref={ref}/>
                         </div>
                     </div>
                 </div>
