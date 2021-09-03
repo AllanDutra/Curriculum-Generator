@@ -30,6 +30,7 @@ const useStyles = makeStyles({
         fontWeight:'bold',
     },
     endereco:{
+        color:"#8f8f87",
         fontSize:'0.7rem',
     },
     itensHeader:{
@@ -79,11 +80,11 @@ const BlockInfo = (props) => {
     const styles = useStyles();
 
     return(
-        <div className={styles.blockInfo}>
-            <div className={styles.titleBlock}>
+        <div className={styles.blockInfo} id="blockInfo">
+            <div className={styles.titleBlock} id="titleBlock">
                 {props.title}
             </div>
-            <div className={styles.paragraphsBlock}>
+            <div className={styles.paragraphsBlock} id="paragraphsBlock">
                 {props.paragraphs ? 
                     props.paragraphs.map((paragraph, k)=>{
                         return(
@@ -105,14 +106,14 @@ const Curriculum = React.forwardRef((props, ref) => {
     const styles = useStyles();
 
     return (
-        <div className={styles.curriculum} ref={ref}>
+        <div className={styles.curriculum} ref={ref} id="curriculum">
             {
                 props.objPeopleData.nome !== '' ?
                 <>
                     <div className={styles.headerCurriculum}>
-                        <span className={styles.nome}>{props.objPeopleData.nome}</span>
-                        <span className={styles.endereco}>{props.objPeopleData.endereco}</span>
-                        <div className={styles.itensHeader}>
+                        <span className={styles.nome} id="nome">{props.objPeopleData.nome}</span>
+                        <span className={styles.endereco} id="endereco">{props.objPeopleData.endereco}</span>
+                        <div className={styles.itensHeader} id="itensHeader">
                             {props.objPeopleData.telefone ?
                                 <ItemHeader icon={<MdSmartphone/>} txt={props.objPeopleData.telefone}/>
                                 :
