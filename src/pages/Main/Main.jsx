@@ -129,10 +129,10 @@ const Main = () => {
     const styles = useStyles();
 
     const initialObjPeopleData = {
-        nome: 'Romeu Amaral Barreira',
-        endereco: 'Rua Pará, 8955, Bairro Boa Vista - Parintins - Amazonas',
-        telefone: '(64) 33263-9861',
-        email:'yaimara266@uorak.com',
+        nome: '',
+        endereco: '',
+        telefone: '',
+        email:'',
         linkedin:'',
         facebook:'',
         twitter:'',
@@ -180,19 +180,10 @@ const Main = () => {
         const {name, value} = e.target;
 
         if(name === "title"){
-            setNewBlockInfo({...newBlockInfo, [name]:value});
-        }
-        else if(name === "paragraph"){
-            setNewParagraph(value);
-        }
-        else if(name === "itemList"){
-            if(value.length <= 57){
-                setNewItemList(value);
-            }
-            else{
+            if(newBlockInfo.paragraphs.length > 0){
                 setAlertNotf({
                     type:'warning',
-                    msg:'O item da lista deve possuir no máximo 57 caracteres!'
+                    msg:'Finalize o tópico de informações abaixo antes de modificar o título.'
                 });
                 setTimeout(function(){
                     setAlertNotf({
@@ -201,6 +192,15 @@ const Main = () => {
                     })
                 },3500);
             }
+            else{
+                setNewBlockInfo({...newBlockInfo, [name]:value});
+            }
+        }
+        else if(name === "paragraph"){
+            setNewParagraph(value);
+        }
+        else if(name === "itemList"){
+            setNewItemList(value);
         }
 
     }
@@ -244,6 +244,8 @@ const Main = () => {
                         msg:'',
                     })
                 },3500);
+
+                enterPress("bttAdd")
             }
             else{
                 setAlertNotf({
@@ -276,6 +278,8 @@ const Main = () => {
                     msg:'',
                 })
             },3500);
+
+            enterPress("endTopic")
         }
         else{
             setAlertNotf({
@@ -325,7 +329,7 @@ const Main = () => {
 
                 // SIGNIFICA QUE O BLOCO AINDA NÃO FOI ADICIONADO NO CURRICULO
                 if(blockExist.length === 0){
-                    
+
                     // E ENTÃO ADICIONA
                     setBlocks([...blocks, newBlockInfo]);
 
@@ -344,6 +348,8 @@ const Main = () => {
                         msg:'',
                     })
                 },3500);
+
+                enterPress("bttAdd")
             }
             else{
                 setAlertNotf({
@@ -377,6 +383,42 @@ const Main = () => {
             })
         },3500);
 
+    }
+
+    function enterPress(from){
+        if((from === "title" && newBlockInfo.title.length > 0) || from === "bttAdd"){
+            if(listStyle){
+
+                let shieldItemList = document.getElementsByName("itemList")[0];
+
+                if(shieldItemList){
+                    setTimeout(function(){
+                        shieldItemList.focus();
+                    },100);
+                }
+
+            }
+            else{
+                
+                let shieldParagraph = document.getElementsByName("paragraph")[0];
+
+                if(shieldParagraph){
+                    setTimeout(function(){
+                        shieldParagraph.focus();
+                    },100);
+                }
+
+            }
+        }
+        else if(from === "endTopic"){
+            let shieldTitle = document.getElementsByName("title")[0];
+
+            if(shieldTitle){
+                setTimeout(function(){
+                    shieldTitle.focus();
+                },100);
+            }
+        }
     }
 
     return (
@@ -429,7 +471,7 @@ const Main = () => {
                                             Bloco em formato de lista
                                         </span>
                                     </div>
-                                    <TextField label="Título" variant="outlined" size="small" className={styles.input} required name="title" value={newBlockInfo.title} onChange={alterBlockInfo}/>
+                                    <TextField label="Título" variant="outlined" size="small" className={styles.input} required name="title" value={newBlockInfo.title} onChange={alterBlockInfo} onKeyDown={(e)=> e.key === "Enter" ? enterPress('title') : null}/>
                                     <div className={styles.addParagraph}>
 
                                         {
