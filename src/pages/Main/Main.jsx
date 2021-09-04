@@ -15,7 +15,6 @@ import Notification from '../../components/Notification';
 // react-icons
 import {AiFillPrinter} from 'react-icons/ai';
 import { useReactToPrint } from 'react-to-print';
-import { useEffect } from 'react';
 
 const useStyles = makeStyles({
     page:{
@@ -133,7 +132,6 @@ const Main = () => {
         twitter:'',
         instagram:'',
         github:'',
-        outro:'',
     }
     const [objPeopleData, setObjPeopleData] = useState(initialObjPeopleData);
 
@@ -159,36 +157,6 @@ const Main = () => {
         type:'',
         msg:'',
     });
-
-    function addPeopleData(){
-
-        let countRequiredEmpty = 0;
-
-        for(let i in objPeopleData){
-            if(i === 'nome' || i === 'telefone' || i === 'endereco'){
-                if(objPeopleData[i] === ''){
-                    countRequiredEmpty++;
-                }
-            }
-        }
-
-        if(countRequiredEmpty !== 0){
-            setAlertNotf({
-                type:'warning',
-                msg:'Existem campos que precisam ser inseridos para prosseguir!'
-            });
-            setTimeout(function(){
-                setAlertNotf({
-                    type:'',
-                    msg:'',
-                })
-            },3500);
-        }
-        else{
-
-        }
-        
-    }
 
     const [blocks, setBlocks] = useState([
         {
@@ -253,7 +221,19 @@ const Main = () => {
         }
         else{
             if(!newBlockInfo.paragraphs.includes(newParagraph)){
+
                 newBlockInfo.paragraphs.push(newParagraph);
+
+                let blockExist = blocks.filter((block) => block.title === newBlockInfo.title);
+
+                // SIGNIFICA QUE O BLOCO AINDA NÃO FOI ADICIONADO NO CURRICULO
+                if(blockExist.length === 0){
+                    
+                    // E ENTÃO ADICIONA
+                    setBlocks([...blocks, newBlockInfo]);
+
+                }
+
                 setNewParagraph('');
                 setAlertNotf({
                     type:'success',
@@ -280,11 +260,6 @@ const Main = () => {
             }
         }
     }
-
-    useEffect(()=>{
-        console.clear();
-        console.log(blocks);
-    },[blocks]);
 
     function addBlockInfo(){
 
@@ -355,12 +330,7 @@ const Main = () => {
                                     <TextField label="Instagram" variant="outlined" size="small" className={styles.input} name="instagram" value={objPeopleData.instagram} onChange={alterPeopleData}/>
                                     
                                     <TextField label="Github" variant="outlined" size="small" className={styles.input} name="github" value={objPeopleData.github} onChange={alterPeopleData}/>
-                                    
-                                    <TextField label="Outro" variant="outlined" size="small" className={styles.input} name="outro" value={objPeopleData.outro} onChange={alterPeopleData}/>
 
-                                    <Button variant="contained" color="primary" className={styles.button} onClick={addPeopleData}>
-                                        Adicionar dados pessoais
-                                    </Button>
                                 </div>
                             </div>
                             <div className={styles.topicoInformacoes}>

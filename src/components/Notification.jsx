@@ -4,7 +4,7 @@ import React from 'react';
 import Alert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core';
 
-import '../index.css';
+import '../styles/index.css';
 
 const useStyles = makeStyles({
     alert: {

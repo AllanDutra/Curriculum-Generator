@@ -3,12 +3,16 @@ import React from 'react';
 // react-icons
 import {MdSmartphone} from 'react-icons/md';
 import {FiMail} from 'react-icons/fi';
+import {FaLinkedin} from 'react-icons/fa';
+import {AiFillFacebook, AiOutlineTwitter, AiFillGithub} from 'react-icons/ai';
+import {SiInstagram} from 'react-icons/si';
 
 // material-ui
 import { makeStyles } from '@material-ui/core';
 
 // styles
-import '../index.css';
+import '../styles/index.css';
+import '../styles/curriculum.css';
 
 const useStyles = makeStyles({
     curriculum:{
@@ -26,7 +30,7 @@ const useStyles = makeStyles({
         marginBottom:'1.2rem',
     },
     nome:{
-        fontSize:'1.2rem',
+        fontSize:'1.2em',
         fontWeight:'bold',
     },
     endereco:{
@@ -38,6 +42,7 @@ const useStyles = makeStyles({
         fontSize:'0.7rem',
         display:'flex',
         flexWrap:'wrap',
+        justifyContent:'center',
     },
     itemHeader:{
         display:'flex',
@@ -106,7 +111,7 @@ const Curriculum = React.forwardRef((props, ref) => {
     const styles = useStyles();
 
     return (
-        <div className={styles.curriculum} ref={ref} id="curriculum">
+        <div className={`curriculum ${styles.curriculum}`} ref={ref} id="curriculum">
             {
                 props.objPeopleData.nome !== '' ?
                 <>
@@ -121,6 +126,31 @@ const Curriculum = React.forwardRef((props, ref) => {
                             }
                             {props.objPeopleData.email ?
                                 <ItemHeader icon={<FiMail/>} txt={props.objPeopleData.email}/>
+                                :
+                                ""
+                            }
+                            {props.objPeopleData.linkedin ?
+                                <ItemHeader icon={<FaLinkedin/>} txt={props.objPeopleData.linkedin}/>
+                                :
+                                ""
+                            }
+                            {props.objPeopleData.facebook ?
+                                <ItemHeader icon={<AiFillFacebook/>} txt={props.objPeopleData.facebook}/>
+                                :
+                                ""
+                            }
+                            {props.objPeopleData.twitter ?
+                                <ItemHeader icon={<AiOutlineTwitter/>} txt={props.objPeopleData.twitter}/>
+                                :
+                                ""
+                            }
+                            {props.objPeopleData.instagram ?
+                                <ItemHeader icon={<SiInstagram/>} txt={props.objPeopleData.instagram}/>
+                                :
+                                ""
+                            }
+                            {props.objPeopleData.github ?
+                                <ItemHeader icon={<AiFillGithub/>} txt={props.objPeopleData.github}/>
                                 :
                                 ""
                             }
