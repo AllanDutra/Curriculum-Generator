@@ -6,9 +6,10 @@ import {FiMail} from 'react-icons/fi';
 import {FaLinkedin} from 'react-icons/fa';
 import {AiFillFacebook, AiOutlineTwitter, AiFillGithub} from 'react-icons/ai';
 import {SiInstagram} from 'react-icons/si';
+import {RiDeleteBin5Fill} from 'react-icons/ri';
 
 // material-ui
-import { makeStyles } from '@material-ui/core';
+import { IconButton, makeStyles } from '@material-ui/core';
 
 // styles
 import '../styles/index.css';
@@ -56,6 +57,9 @@ const useStyles = makeStyles({
         borderBottom:'2px solid black',
         fontWeight:'bold',
         fontSize:'0.9rem',
+        display:'flex',
+        justifyContent:'space-between',
+        alignItems:'center',
     },
     paragraphsBlock:{
         marginTop:'0.4rem',
@@ -88,18 +92,51 @@ const BlockInfo = (props) => {
         <div className={styles.blockInfo} id="blockInfo">
             <div className={styles.titleBlock} id="titleBlock">
                 {props.title}
+                <span id="binIcon">
+                    <IconButton style={{padding:"40%", display:'flex', alignItems:'center', justifyContent:'center'}} onClick={()=>props.remove(props.title)}>
+                        <RiDeleteBin5Fill size="0.9rem" color="#cc0000"/>
+                    </IconButton>
+                </span>
             </div>
-            <div className={styles.paragraphsBlock} id="paragraphsBlock">
-                {props.paragraphs ? 
-                    props.paragraphs.map((paragraph, k)=>{
-                        return(
-                            <p key={k} className={styles.paragraph} id={k === props.paragraphs.length-1 ? "lastParagraph" : null}>
-                                {paragraph}
-                            </p>
-                        )
-                    })
+            <div className={`list ${styles.paragraphsBlock}`} id="paragraphsBlock">
+
+                {/* VERIFICANDO SE O USUÁRIO DEFINIU OU NÃO FORMATO DE LISTA */}
+                {
+                    props.list ?
+
+                        // formato de lista
+                        props.paragraphs ?
+
+                            <ul>
+                                {
+                                    props.paragraphs.map((item, k)=>{
+                                        return (
+                                            <li key={k} id={k === props.paragraphs.length-1 ? "lastParagraph" : null}>
+                                                <span>{item}</span>
+                                            </li>
+                                        )
+                                    })
+                                }
+                            </ul>
+                        
+                        :
+
+                        <h4>Você não definiu nenhum item para essa lista.</h4>
+
                     :
-                    <h3>Você não definiu nenhum parágrafo para este bloco.</h3>
+                        // formato de parágrafo
+                        props.paragraphs ? 
+
+                            props.paragraphs.map((paragraph, k)=>{
+                                return(
+                                    <p key={k} className={styles.paragraph} id={k === props.paragraphs.length-1 ? "lastParagraph" : null}>
+                                        {paragraph}
+                                    </p>
+                                )
+                            })
+
+                    :
+                        <h4>Você não definiu nenhum parágrafo para este bloco.</h4>
                 }
             </div>
         </div>
@@ -162,7 +199,7 @@ const Curriculum = React.forwardRef((props, ref) => {
                             props.blocks.map((bloco, i)=>{
                                 return (
                                     <span key={i}>
-                                        <BlockInfo title={bloco.title} paragraphs={bloco.paragraphs}/>
+                                        <BlockInfo title={bloco.title} paragraphs={bloco.paragraphs} list={bloco.list} remove={props.remove}/>
                                     </span>
                                 )
                             })

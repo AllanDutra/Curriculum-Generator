@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import {mask} from 'remask';
 
 // material-ui
-import { makeStyles, TextField, ThemeProvider, createTheme, Button, Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
+import { makeStyles, TextField, ThemeProvider, createTheme, Button, Select, MenuItem, FormControl, InputLabel, Switch } from '@material-ui/core';
 
 // images
 import logoWhite from '../../assets/images/LogoAllanProjects-White.svg';
@@ -102,6 +102,12 @@ const useStyles = makeStyles({
     select:{
         width:'50%',
     },
+    listStyle:{
+        paddingBottom:'1rem',
+        fontStyle:'italic',
+        display:'flex',
+        alignItems:'center',
+    },
 })
 
 const theme = createTheme({
@@ -158,36 +164,12 @@ const Main = () => {
         msg:'',
     });
 
-    const [blocks, setBlocks] = useState([
-        {
-            title:"Competências",
-            paragraphs:[
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-            ]
-        },
-        {
-            title:"Objetivos",
-            paragraphs:[
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-            ]
-        },
-        {
-            title:"Outros",
-            paragraphs:[
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-            ]
-        },
-        {
-            title:"Mais informações",
-            paragraphs:[
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-            ]
-        },
-    ]);
+    const [blocks, setBlocks] = useState([]);
 
     const initialBlockInfo = {
         title:"",
         paragraphs:[],
+        list:false,
     }
     const [newBlockInfo, setNewBlockInfo] = useState(initialBlockInfo);
 
@@ -202,6 +184,23 @@ const Main = () => {
         }
         else if(name === "paragraph"){
             setNewParagraph(value);
+        }
+        else if(name === "itemList"){
+            if(value.length <= 57){
+                setNewItemList(value);
+            }
+            else{
+                setAlertNotf({
+                    type:'warning',
+                    msg:'O item da lista deve possuir no máximo 57 caracteres!'
+                });
+                setTimeout(function(){
+                    setAlertNotf({
+                        type:'',
+                        msg:'',
+                    })
+                },3500);
+            }
         }
 
     }
@@ -261,14 +260,15 @@ const Main = () => {
         }
     }
 
-    function addBlockInfo(){
+    function endTopic(){
+        if(newBlockInfo.title !== '' && newBlockInfo.paragraphs.length > 0){
 
-        let blockExist = blocks.filter(block => block.title === newBlockInfo.title);
+            setNewBlockInfo(initialBlockInfo);
+            setListStyle(false);
 
-        if(blockExist.length > 0){
             setAlertNotf({
-                type:'warning',
-                msg:'Você já adicionou um bloco de informações com esse título!'
+                type:'success',
+                msg:'Bloco adicionado com sucesso, você já pode inserir outro agora!',
             });
             setTimeout(function(){
                 setAlertNotf({
@@ -278,14 +278,77 @@ const Main = () => {
             },3500);
         }
         else{
-            if(newBlockInfo.title !== '' && newBlockInfo.paragraphs.length > 0){
-                setBlocks([...blocks, newBlockInfo]);
-                setNewBlockInfo(initialBlockInfo);
+            setAlertNotf({
+                type:'error',
+                msg:'Verifique os campos do seu bloco de informações e tente novamente!'
+            });
+            setTimeout(function(){
+                setAlertNotf({
+                    type:'',
+                    msg:'',
+                })
+            },3500);
+        }
+    }
+
+    const [listStyle, setListStyle] = useState(false);
+    function alterListStyle(){
+        setListStyle(!listStyle);
+        setNewParagraph('');
+        setNewItemList('');
+        setNewBlockInfo({...newBlockInfo, list:!listStyle});
+    }
+
+    const [newItemList, setNewItemList] = useState('');
+    
+    function addItemList(){
+        if(newItemList.length < 4){
+            setAlertNotf({
+                type:'info',
+                msg:'O item da lista deve possuir ao menos 4 caracteres.'
+            });
+            setTimeout(function(){
+                setAlertNotf({
+                    type:'',
+                    msg:'',
+                })
+            },3500);
+        }
+        else{
+            // VERIFICANDO SE O NOVO ITEM JÁ FOI ADICIONADO NO BLOCO DE INFORMAÇÕES
+            if(!newBlockInfo.paragraphs.includes(newItemList)){
+
+                // ADICIONA O NOVO ITEM NO ARRAY "PARAGRAPHS" QUE VAI DIFERENCIAR SE É LISTA OU PARÁGRAFO PELO ATRIBUTO "LIST" DO BLOCO
+                newBlockInfo.paragraphs.push(newItemList);
+
+                let blockExist = blocks.filter((block) => block.title === newBlockInfo.title);
+
+                // SIGNIFICA QUE O BLOCO AINDA NÃO FOI ADICIONADO NO CURRICULO
+                if(blockExist.length === 0){
+                    
+                    // E ENTÃO ADICIONA
+                    setBlocks([...blocks, newBlockInfo]);
+
+                }
+
+                // ZERA O CAMPO PARA ADICIONAR ITEM
+                setNewItemList('');
+
+                setAlertNotf({
+                    type:'success',
+                    msg:'Item adicionado no bloco com sucesso!',
+                });
+                setTimeout(function(){
+                    setAlertNotf({
+                        type:'',
+                        msg:'',
+                    })
+                },3500);
             }
             else{
                 setAlertNotf({
-                    type:'error',
-                    msg:'Verifique os campos do seu bloco de informações e tente novamente!'
+                    type:'warning',
+                    msg:'Você já inseriu esse item no bloco de informações!'
                 });
                 setTimeout(function(){
                     setAlertNotf({
@@ -295,6 +358,25 @@ const Main = () => {
                 },3500);
             }
         }
+    }
+
+    function removeBlock(title){
+
+        let newBlocks = blocks.filter(block => block.title !== title);
+
+        setBlocks(newBlocks);
+
+        setAlertNotf({
+            type:'success',
+            msg:`Bloco de informações "${title}" removido com sucesso!`,
+        });
+        setTimeout(function(){
+            setAlertNotf({
+                type:'',
+                msg:'',
+            })
+        },3500);
+
     }
 
     return (
@@ -336,18 +418,63 @@ const Main = () => {
                             <div className={styles.topicoInformacoes}>
                                 <TitleContent txt="Adicionar tópico de informações"/>
                                 <div className={styles.bodyAddInformacoes}>
+                                    <div className={styles.listStyle}>
+                                        <Switch
+                                            checked={listStyle}
+                                            onChange={alterListStyle}
+                                            onKeyDown={(e)=> e.key === "Enter" ? alterListStyle() : null}
+                                            color="primary"
+                                        />
+                                        <span>
+                                            Bloco em formato de lista
+                                        </span>
+                                    </div>
                                     <TextField label="Título" variant="outlined" size="small" className={styles.input} required name="title" value={newBlockInfo.title} onChange={alterBlockInfo}/>
                                     <div className={styles.addParagraph}>
-                                        <TextField label="Novo parágrafo" variant="outlined" size="small" required multiline rows={6} className={styles.inputParagraph} name="paragraph" value={newParagraph} onChange={alterBlockInfo}/>
+
+                                        {
+                                            listStyle ?
+                                            <TextField 
+                                            label="Novo item da lista"
+                                            variant="outlined"
+                                            size="small"
+                                            required
+                                            className={styles.inputParagraph}
+                                            name="itemList"
+                                            value={newItemList}
+                                            onChange={alterBlockInfo}
+                                            />
+                                            :
+                                            <TextField label="Novo parágrafo" variant="outlined" size="small" required multiline rows={6} className={styles.inputParagraph} name="paragraph" value={newParagraph} onChange={alterBlockInfo}/>
+                                        }
+
                                         <div className={styles.bttsAddParagraph}>
-                                            <Button variant="contained" color="primary" className={styles.button} onClick={addParagraph}>
-                                                Adicionar parágrafo
+                                            <Button variant="contained" color="primary" className={styles.button} onClick={listStyle ? addItemList : addParagraph}>
+                                                {
+                                                    listStyle ?
+                                                    "Adicionar item"
+                                                    :
+                                                    "Adicionar parágrafo"
+                                                }   
                                             </Button>
-                                            <Button variant="contained" color="primary" className={styles.button} onClick={addBlockInfo} disabled={newBlockInfo.paragraphs.length === 0 ? true : false}>
-                                                Finalizar tópico de informações
-                                            </Button>
+                                            {
+                                                listStyle?
+                                                null
+                                                :
+                                                <Button variant="contained" color="primary" className={styles.button} onClick={endTopic} disabled={newBlockInfo.paragraphs.length === 0 ? true : false}>
+                                                    Finalizar tópico de informações
+                                                </Button>
+                                            }
                                         </div>
                                     </div>
+                                    {
+                                        listStyle ?
+                                        <Button variant="contained" color="primary" className={styles.button} style={{width:'100%'}} onClick={endTopic} disabled={newBlockInfo.paragraphs.length === 0 ? true : false}>
+                                            Finalizar tópico de informações
+                                        </Button>
+                                        :
+                                        null
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -379,7 +506,7 @@ const Main = () => {
                                 </Button>
 
                             </div>
-                            <Curriculum objPeopleData={objPeopleData} blocks={blocks} ref={ref}/>
+                            <Curriculum objPeopleData={objPeopleData} blocks={blocks} ref={ref} remove={removeBlock}/>
                         </div>
                     </div>
                 </div>
