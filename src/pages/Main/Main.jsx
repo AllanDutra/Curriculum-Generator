@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { useReactToPrint } from 'react-to-print';
 import {mask} from 'remask';
 
 // material-ui
@@ -14,12 +15,10 @@ import Notification from '../../components/Notification';
 
 // react-icons
 import {AiFillPrinter} from 'react-icons/ai';
-import { useReactToPrint } from 'react-to-print';
+import {RiPushpinFill, RiInstagramLine} from 'react-icons/ri';
+import {FaGithub} from 'react-icons/fa';
 
 const useStyles = makeStyles({
-    page:{
-
-    },
     header:{
         backgroundColor:'black',
         color:'white',
@@ -108,6 +107,56 @@ const useStyles = makeStyles({
         display:'flex',
         alignItems:'center',
     },
+    blocosSeg:{
+        display:'flex',
+        justifyContent:'space-between',
+        alignItems:'flex-start',
+        paddingTop:"1rem",
+        fontSize:'0.85rem',
+    },
+    blocoInfo:{
+        display:'flex',
+        flexDirection:'column',
+        width:'48%',
+        textAlign:'justify',
+    },
+    paragraphBloco:{
+        width:'100%',
+        marginBottom:'2rem',
+    },
+    terciaryRow:{
+        display:'flex',
+        justifyContent:"space-between",
+        textAlign:'justify',
+        fontSize:'0.85rem',
+    },
+    blocoTerc:{
+        display:'flex',
+        flexDirection:'column',
+        width:'48%',
+    },
+    msgBlocoTerc:{
+        paddingTop:'0.5rem',
+    },
+    foot:{
+        width:'100%',
+        backgroundColor:'black',
+        color:'white',
+        height:'4rem',
+        display:'flex',
+        justifyContent:'space-between',
+        alignItems:'center',
+        padding:'1rem 2rem 1rem 2rem'
+    },
+    blocoRedes:{
+        display:'flex',
+        justifyContent:'space-between',
+        width:'18rem'
+    },
+    itemRede:{
+        display:'flex',
+        alignItems:'center',
+    },
 })
 
 const theme = createTheme({
@@ -117,6 +166,39 @@ const theme = createTheme({
         },
     },
 })
+
+const ParagraphBlocoInfo = (props) => {
+    
+    const styles = useStyles();
+    
+    return(
+        <div className={styles.paragraphBloco}>
+            
+            <RiPushpinFill style={{alignSelf:'flex-start', margin:'0', padding:'0',marginRight:'0.3rem'}}/>
+
+            <span>
+                <b>{props.title}:</b>{` ${props.msg}`}
+            </span>
+
+        </div>
+    )
+}
+
+const ItemRede = (props) => {
+
+    const styles = useStyles();
+
+    return (
+        <div className={styles.itemRede} id="itemRede">
+
+            {props.icon}
+
+            <span style={{marginLeft:'0.5rem',}}>
+                {props.txt}
+            </span>
+        </div>
+    )
+}
 
 const Main = () => {
 
@@ -431,7 +513,9 @@ const Main = () => {
                     </span>
                 </div>
                 <div className={styles.body}>
+                    
                     <Notification type={alertNotf.type} msg={alertNotf.msg}/>
+                    
                     <div className={styles.primaryRow}>
                         <div className={styles.blocoEntrada}>
                             <div className={styles.dadosPessoais}>
@@ -550,6 +634,70 @@ const Main = () => {
                             </div>
                             <Curriculum objPeopleData={objPeopleData} blocks={blocks} ref={ref} remove={removeBlock}/>
                         </div>
+                    </div>
+                    
+                    <div className={styles.secondaryRow}>
+                        <TitleContent txt="Sugestão de tópicos"/>
+                        
+                        <div className={styles.blocosSeg}>
+
+                            <div className={styles.blocoInfo}>
+
+                                <ParagraphBlocoInfo title="Objetivos" msg="O objetivo é um dos principais itens dos que não podem faltar no currículo. Ele precisa ser curto e informar de forma concisa alguns detalhes, como as suas expectativas profissionais, assim como a área de atuação."/>
+
+                                <ParagraphBlocoInfo title="Histórico profissional" msg="Apresentar um histórico de experiências no mercado de trabalho é algo que fortalece sua imagem como profissional. Nesse caso, é indicado informar o cargo exercido, todas as funções desenvolvidas dentro dele e o período em que permaneceu na posição."/>
+                                
+                                <ParagraphBlocoInfo title="Cursos complementares" msg="Além da formação acadêmica tradicional, o que não pode faltar no currículo são os cursos complementares que você realizou durante a sua trajetória profissional. Eles não servem apenas para mostrar aos recrutadores todos os conhecimentos extras adquiridos, mas também demonstram com que frequência você se aprimora como profissional. Além disso, mostram como tem se atualizado sobre os conhecimentos relevantes para atuar no cargo pretendido."/>
+                                
+                            </div>
+                            
+                            <div className={styles.blocoInfo}>
+
+                                <ParagraphBlocoInfo title="Formação acadêmica" msg="Informar a sua formação acadêmica (curso técnico, superior, de extensão etc.) demonstra os conhecimentos que podem ser empregados nas diversas funções que implicam o cargo pretendido. Fazer uma lista de forma clara e sintetizada é um diferencial muito importante na hora da comparação dos currículos."/>
+
+                                <ParagraphBlocoInfo title="Idiomas" msg="O simples fato de conseguir se comunicar em um outro idioma já é um fator de destaque em qualquer currículo. Por esse motivo, é importante descrever quais competências linguísticas você tem para que seja um diferencial — por mais que muitas vagas hoje em dia exijam, no mínimo, inglês básico."/>
+                                
+                                <ParagraphBlocoInfo title="Atividades extracurriculares" msg="Em um mercado de trabalho cada vez mais competitivo, as atividades extracurriculares surgem como um grande diferencial, já que apenas o diploma acadêmico acaba, muitas vezes, não sendo o bastante para garantir o sucesso na busca pelo emprego dos sonhos. Entre as mais comuns, é possível citar: ações de voluntariados, cursos de idiomas, atividades culturais, como teatro e aulas de música, intercâmbios, práticas esportivas ou cursos online que tenham relação com a área pretendida."/>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                
+                    <div className={styles.terciaryRow}>
+                    
+                        <div className={styles.blocoTerc}>
+                            <TitleContent txt="Observação"/>
+
+                            <span className={styles.msgBlocoTerc}>
+                                A atenção com a gramática e a ortografia é algo fundamental e, quando não realizado, pode eliminar você do processo seletivo. Conseguir apresentar um currículo resumido, claro e pertinente também é muito importante. Por esse motivo, é extremamente importante prestar atenção a esses detalhes.
+                            </span>
+
+                        </div>
+                        
+                        <div className={styles.blocoTerc}>
+                            <TitleContent txt="Fonte dos textos"/>
+
+                            <span className={styles.msgBlocoTerc}>
+                                <a href="https://www.gruposeres.com.br/o-que-nao-pode-faltar-no-curriculo/" style={{color:'black', fontWeight:'bold'}}>https://www.gruposeres.com.br/o-que-nao-pode-faltar-no-curriculo/</a>
+                            </span>
+                        </div>
+                    
+                    </div>
+
+                </div>
+                <div className={styles.foot}>
+                    <span style={{fontWeight:'bold',}}>
+                        Me siga nas redes sociais e se possível divulgue meu trabalho, obrigado!
+                    </span>
+
+                    <div className={styles.blocoRedes}>
+                        
+                        <ItemRede icon={<RiInstagramLine color="white" size="1rem"/>} txt="@allan_dutraa"/>
+
+                        <ItemRede icon={<FaGithub color="white" size="1rem"/>} txt="AllanDutra"/>
+
                     </div>
                 </div>
             </div>
