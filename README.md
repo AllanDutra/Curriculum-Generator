@@ -6,7 +6,7 @@
 
 <hr/>
 
-<p align="center"><img src="https://ik.imagekit.io/bzfsfuncunl/video-CurriculumGenerator_L2B-cmPb65.gif?updatedAt=1631231365447" style="vertical-align:middle" title="CurriculumGenerator GIF"></p>
+<p align="center"><img src="https://ik.imagekit.io/bzfsfuncunl/videocurriculo_hOqnMbmsEXhX.gif" style="vertical-align:middle" title="CurriculumGenerator GIF"></p>
 
 ### `Sobre`
 
