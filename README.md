@@ -2,7 +2,7 @@
     <img width="150" src="https://ik.imagekit.io/bzfsfuncunl/LogoAllanProjects-Black_Uz_TAtxc-.svg" alt="logo" title="AllanProjects logo">
 </p>
 
-# Sistema de geração de currículos
+<h1 align="center"><strong>Sistema de geração de currículos</strong></h1>
 
 <hr/>
 
