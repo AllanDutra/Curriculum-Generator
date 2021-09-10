@@ -26,7 +26,7 @@
 * [remask](https://www.npmjs.com/package/remask)
 
 #### Outras
-* [Figma] (https://www.figma.com/)
+* [Figma](https://www.figma.com/)
 * [Git](https://git-scm.com/)
 * [GitHub](https://github.com/)
 * [Visual Studio Code](https://code.visualstudio.com/)
