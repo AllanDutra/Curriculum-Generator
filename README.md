@@ -6,7 +6,9 @@
 
 <hr/>
 
-<iframe src='//gifs.com/embed/z6XvVq' frameborder='0' scrolling='no' width='640px' height='306px' style='-webkit-backface-visibility: hidden;-webkit-transform: scale(1);' ></iframe>
+<p align="center">
+    <img src="https://j.gifs.com/z6XvVq.gif" alt="Demonstração sistema de geração de currículos" title="Curriculum-Generator">
+</p>
 
 ### `Sobre`
 
