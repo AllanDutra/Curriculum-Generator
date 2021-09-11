@@ -6,7 +6,7 @@
 
 <hr/>
 
-<p align="center" width="400"><img src="https://ik.imagekit.io/bzfsfuncunl/videocurriculo-720p_sajpvJcOt.gif" title="CurriculumGenerator GIF"></p>
+<iframe src='//gifs.com/embed/z6XvVq' frameborder='0' scrolling='no' width='640px' height='306px' style='-webkit-backface-visibility: hidden;-webkit-transform: scale(1);' ></iframe>
 
 ### `Sobre`
 
