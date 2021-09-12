@@ -1,5 +1,5 @@
 <p align="center">
-    <img width="50%" src="https://ik.imagekit.io/bzfsfuncunl/LogoAllanBlack_Xu9-TCUVG.svg" alt="logo" title="AllanProjects logo">
+    <img width="40%" src="https://ik.imagekit.io/bzfsfuncunl/LogoAllanBlack_Xu9-TCUVG.svg" alt="logo" title="AllanProjects logo">
 </p>
 
 <h1 align="center"><strong>Sistema de geração de currículos</strong></h1>
