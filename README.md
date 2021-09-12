@@ -32,3 +32,11 @@
 * [Git](https://git-scm.com/)
 * [GitHub](https://github.com/)
 * [Visual Studio Code](https://code.visualstudio.com/)
+
+### `🔎 Como usar`
+
+<p>$ git clone https://github.com/AllanDutra/Curriculum-Generator.git</p>
+
+<p>$ npm install</p>
+
+<p>$ npm start</p>
